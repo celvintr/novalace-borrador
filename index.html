@@ -162,14 +162,24 @@
       </div>
     </div>
     <div class="about-figure reveal d2">
-      <svg class="weave" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs><pattern id="weaveAbout" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <path d="M0 0V30M15 0V30" stroke="rgba(255,255,255,.06)" stroke-width="2"/>
-          <path d="M0 8H30" stroke="rgba(244,180,0,.08)" stroke-width="2"/>
-          <path d="M0 22H30" stroke="rgba(220,18,29,.10)" stroke-width="2"/>
-        </pattern></defs>
-        <rect width="100%" height="100%" fill="url(#weaveAbout)"/>
-      </svg>
+      <div class="photo-frame tall">
+        <svg class="pf-weave" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs><pattern id="weaveAbout" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path d="M0 0V30M15 0V30" stroke="rgba(255,255,255,.06)" stroke-width="2"/>
+            <path d="M0 8H30" stroke="rgba(244,180,0,.08)" stroke-width="2"/>
+            <path d="M0 22H30" stroke="rgba(220,18,29,.10)" stroke-width="2"/>
+          </pattern></defs>
+          <rect width="100%" height="100%" fill="url(#weaveAbout)"/>
+        </svg>
+        <div class="pf-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+          <small data-i18n="photo_soon">Espacio para imagen de NOVALACE</small>
+        </div>
+        <div class="pf-caption">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-i18n="about_img_caption">Planta de producción · Choloma, Cortés</span>
+        </div>
+      </div>
       <div class="fig-stat">
         <div class="fig-chip"><b data-i18n="fig1_b">35+</b><span data-i18n="fig1_s">Años de experiencia</span></div>
         <div class="fig-chip"><b data-i18n="fig2_b">3 turnos</b><span data-i18n="fig2_s">Producción continua</span></div>
@@ -180,35 +190,33 @@
   </div>
 </section>
 
+<!-- ============ SECTORES ============ -->
+<section class="section-tight sectors" id="sectores">
+  <div class="container">
+    <div class="head center reveal">
+      <span class="eyebrow" data-i18n="sectors_eyebrow">Sectores que atendemos</span>
+      <h2 class="section-title" data-i18n="sectors_title">Soluciones para múltiples industrias</h2>
+    </div>
+    <div class="sector-grid">
+      <div class="sector reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17h20l-1-4-6-1-3-3-5 1-3 3z"/><path d="M2 17v3h20v-3"/></svg></span><span data-i18n="sec_calzado">Calzado</span></div>
+      <div class="sector reveal d1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l6 3 6-3 3 5-4 2v11H7V10L3 8z"/></svg></span><span data-i18n="sec_confeccion">Confección</span></div>
+      <div class="sector reveal d2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span data-i18n="sec_marroquineria">Marroquinería</span></div>
+      <div class="sector reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></span><span data-i18n="sec_empaque">Empaque</span></div>
+      <div class="sector reveal d1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-2 5 5 0 0 1 9 2c-2 4.5-9 9-9 9Z"/><path d="M8 12h2l1-2 2 4 1-2h2"/></svg></span><span data-i18n="sec_medico">Médico</span></div>
+      <div class="sector reveal d2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5a3 3 0 0 1 3-2h8a3 3 0 0 1 3 2l2 5v5h-3v-2H6v2H3z"/><circle cx="7" cy="16" r="1"/><circle cx="17" cy="16" r="1"/></svg></span><span data-i18n="sec_automotriz">Automotriz</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PRODUCTOS ============ -->
 <section class="section products" id="productos">
   <div class="container">
     <div class="head center reveal">
       <span class="eyebrow" data-i18n="prod_eyebrow">Catálogo</span>
       <h2 class="section-title" data-i18n="prod_title">Productos fabricados a la medida</h2>
-      <p class="section-lead" data-i18n="prod_lead">Filtre por tipo y material. Adaptamos color, ancho, resistencia y acabado según su aplicación.</p>
+      <p class="section-lead" data-i18n="cat_note">Vistazo al catálogo · adaptamos color, ancho, resistencia y acabado a su medida.</p>
     </div>
-    <div class="filters reveal d1">
-      <div class="filter-row">
-        <span class="flabel" data-i18n="filter_type">Tipo</span>
-        <button class="chip active" data-ftype="all" data-i18n="ft_all">Todos</button>
-        <button class="chip" data-ftype="cordones" data-i18n="ft_cordones">Cordones</button>
-        <button class="chip" data-ftype="cintas" data-i18n="ft_cintas">Cintas y tapes</button>
-        <button class="chip" data-ftype="tejidos" data-i18n="ft_tejidos">Tejidos angostos</button>
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="search" id="product-search" data-i18n-ph="search_ph" placeholder="Buscar producto…">
-        </div>
-      </div>
-      <div class="filter-row">
-        <span class="flabel" data-i18n="filter_material">Material</span>
-        <button class="chip active" data-fmat="all" data-i18n="fm_all">Todos</button>
-        <button class="chip" data-fmat="poliester" data-i18n="fm_poliester">Poliéster</button>
-        <button class="chip" data-fmat="algodon" data-i18n="fm_algodon">Algodón</button>
-        <button class="chip" data-fmat="mixto" data-i18n="fm_mixto">Mixto</button>
-      </div>
-    </div>
-    <div class="product-grid" id="product-grid"></div>
+    <div class="catalog" id="catalog"></div>
   </div>
 </section>
 
@@ -245,6 +253,34 @@
       <span class="cert-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="m9 12-2 9 5-3 5 3-2-9"/></svg>ISO 9001</span>
       <span class="cert-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="m9 12-2 9 5-3 5 3-2-9"/></svg>OEKO-TEX®</span>
       <span class="cert-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>REACH</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTALACIONES ============ -->
+<section class="section" id="instalaciones">
+  <div class="container">
+    <div class="head center reveal">
+      <span class="eyebrow" data-i18n="gal_eyebrow">Instalaciones</span>
+      <h2 class="section-title" data-i18n="gal_title">Nuestra planta y maquinaria</h2>
+      <p class="section-lead" data-i18n="gal_lead">Infraestructura industrial preparada para volúmenes exigentes y calidad constante.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="photo-frame reveal">
+        <svg class="pf-weave" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="wG1" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V30M15 0V30" stroke="rgba(255,255,255,.06)" stroke-width="2"/><path d="M0 8H30" stroke="rgba(244,180,0,.08)" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#wG1)"/></svg>
+        <div class="pf-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg><small data-i18n="photo_soon">Espacio para imagen de NOVALACE</small></div>
+        <div class="pf-caption"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10l8-6 8 6v11"/><rect x="9" y="14" width="6" height="7"/></svg><span data-i18n="gal1">Planta de producción</span></div>
+      </div>
+      <div class="photo-frame reveal d1">
+        <svg class="pf-weave" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="wG2" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V30M15 0V30" stroke="rgba(255,255,255,.06)" stroke-width="2"/><path d="M0 8H30" stroke="rgba(220,18,29,.10)" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#wG2)"/></svg>
+        <div class="pf-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg><small data-i18n="photo_soon">Espacio para imagen de NOVALACE</small></div>
+        <div class="pf-caption"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg><span data-i18n="gal2">Maquinaria y telares</span></div>
+      </div>
+      <div class="photo-frame reveal d2">
+        <svg class="pf-weave" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="wG3" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V30M15 0V30" stroke="rgba(255,255,255,.06)" stroke-width="2"/><path d="M0 22H30" stroke="rgba(244,180,0,.08)" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#wG3)"/></svg>
+        <div class="pf-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg><small data-i18n="photo_soon">Espacio para imagen de NOVALACE</small></div>
+        <div class="pf-caption"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n="gal3">Control de calidad</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -338,6 +374,25 @@
           <span data-i18n="f_wa">Escríbanos por WhatsApp</span>
         </a>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-wrap">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2 data-i18n="cta_title">¿Listo para su próximo pedido?</h2>
+        <p data-i18n="cta_lead">Cotice cordones, cintas o tejidos angostos a la medida. Le respondemos rápido.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="#contacto" class="btn btn-red" data-i18n="nav_quote">Cotizar</a>
+        <a href="https://wa.me/50496275320" target="_blank" rel="noopener" class="btn btn-ghost-light">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1-2.9-1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4 0 .5l-.4.5-.3.3c-.2.2-.3.3-.1.6.1.2.7 1 1.4 1.7.9.8 1.7 1 2 1.2.2 0 .4 0 .5-.1l.7-.9c.2-.2.3-.2.5-.1l1.9.9c.2.1.4.2.4.3.1.2.1.7-.1 1.1Z"/></svg>
+          <span data-i18n="f_wa">Escríbanos por WhatsApp</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
