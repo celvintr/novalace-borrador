@@ -19,7 +19,7 @@
     $$("[data-i18n-ph]").forEach(el=>{ el.setAttribute("placeholder", t(el.dataset.i18nPh)); });
     $$(".lang button").forEach(b=> b.classList.toggle("active", b.dataset.lang===lang));
   }
-  function setLang(l){ lang=l; localStorage.setItem(LS_KEY,l); applyI18n(); buildMarquee(); renderProducts(); refreshChatSuggestions(); }
+  function setLang(l){ lang=l; localStorage.setItem(LS_KEY,l); applyI18n(); buildMarquee(); renderCatalog(); refreshChatSuggestions(); }
 
   /* ---------------- Marquee ---------------- */
   function buildMarquee(){
@@ -30,125 +30,112 @@
   }
 
   /* ---------------- Product visuals (SVG) ---------------- */
-  function cordSVG(colors, shape){
-    // diagonal braided cords echoing the logo
-    const rx = shape==="flat" ? 7 : (shape==="oval"? 13 : 16);
-    const th = shape==="flat" ? 26 : (shape==="oval"? 30 : 24);
-    let bands="";
-    const n = Math.min(colors.length,4);
+  function pvDefs(uid,th){
+    return `<defs>
+      <radialGradient id="stg${uid}" cx="50%" cy="26%" r="95%">
+        <stop offset="0" stop-color="#fbfcff"/><stop offset=".55" stop-color="#eef1f8"/><stop offset="1" stop-color="#dfe4f0"/>
+      </radialGradient>
+      <linearGradient id="rnd${uid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".64" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/>
+      </linearGradient>
+      <linearGradient id="stn${uid}" x1="0" y1="0" x2="1" y2="0.2">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".46" stop-color="#fff" stop-opacity=".5"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <pattern id="brd${uid}" width="13" height="${th}" patternUnits="userSpaceOnUse">
+        <path d="M0 0 L7 ${(th/2).toFixed(1)} L0 ${th}" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1.6"/>
+        <path d="M7 0 L14 ${(th/2).toFixed(1)} L7 ${th}" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.3"/>
+      </pattern>
+      <pattern id="wft${uid}" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="3.2" height="7" fill="rgba(0,0,0,.10)"/></pattern>
+      <filter id="sh${uid}" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#0b1330" flood-opacity=".26"/></filter>
+    </defs>`;
+  }
+  function svgWrap(uid,inner,th){
+    return `<svg viewBox="0 0 320 190" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">${pvDefs(uid,th)}<rect width="320" height="190" fill="url(#stg${uid})"/>${inner}</svg>`;
+  }
+  function cordViz(uid,colors,shape){
+    const th=shape==="flat"?18:(shape==="oval"?26:30);
+    const n=Math.min(colors.length,3),gap=11,total=n*th+(n-1)*gap,y0=95-total/2;
+    let cords="";
     for(let i=0;i<n;i++){
-      const off = -30 + i*(150/n);
-      const c = colors[i];
-      bands += `<g transform="translate(${off},0)">
-        <rect x="-40" y="-10" width="120" height="${th}" rx="${rx}" fill="${c}" transform="rotate(32 20 90)" />
-        <rect x="-40" y="-10" width="120" height="${th}" rx="${rx}" fill="url(#gloss)" transform="rotate(32 20 90)" opacity=".35"/>
+      const y=y0+i*(th+gap),c=colors[i],rx=shape==="flat"?5:th/2;
+      cords+=`<g>
+        <rect x="-40" y="${y}" width="410" height="${th}" rx="${rx}" fill="${c}"/>
+        <rect x="-40" y="${y}" width="410" height="${th}" rx="${rx}" fill="url(#brd${uid})"/>
+        <rect x="-40" y="${y}" width="410" height="${th}" rx="${rx}" fill="url(#rnd${uid})"/>
+        <rect x="-40" y="${(y+th*0.22).toFixed(1)}" width="410" height="2.4" rx="2" fill="#fff" opacity=".45"/>
       </g>`;
     }
-    return `<svg viewBox="0 0 320 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
-      <defs>
-        <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/>
-        </linearGradient>
-        <pattern id="braid" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(32)">
-          <path d="M0 6 Q3 0 6 6 T12 6" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="2"/>
-        </pattern>
-      </defs>
-      <g transform="translate(90,-30) scale(1.15)">${bands}
-        <rect x="-140" y="-40" width="360" height="90" fill="url(#braid)" transform="rotate(32 20 90)" opacity=".5"/>
-      </g>
-    </svg>`;
+    return svgWrap(uid,`<ellipse cx="160" cy="164" rx="118" ry="13" fill="#0b1330" opacity=".08"/><g filter="url(#sh${uid})" transform="rotate(-30 160 95)">${cords}</g>`,th);
   }
-  function tapeSVG(colors){
-    const n=Math.min(colors.length,4);
-    let stripes="";
-    const h=44, gap=14, startY=(180-(n*h+(n-1)*gap))/2;
+  function tapeViz(uid,colors){
+    const n=Math.min(colors.length,3),h=32,gap=17,total=n*h+(n-1)*gap,y0=95-total/2;
+    let bands="";
     for(let i=0;i<n;i++){
-      const y=startY+i*(h+gap);
-      stripes+=`<rect x="20" y="${y}" width="280" height="${h}" rx="7" fill="${colors[i]}"/>
-        <rect x="20" y="${y}" width="280" height="${h/2}" rx="7" fill="url(#tg)" opacity=".3"/>
-        <rect x="20" y="${y}" width="280" height="${h}" fill="url(#weftp)" opacity=".4"/>`;
+      const y=y0+i*(h+gap),c=colors[i];
+      bands+=`<g filter="url(#sh${uid})">
+        <rect x="24" y="${y}" width="272" height="${h}" rx="5" fill="${c}"/>
+        <rect x="24" y="${y}" width="272" height="${h}" rx="5" fill="url(#wft${uid})"/>
+        <rect x="24" y="${y}" width="272" height="${h}" rx="5" fill="url(#rnd${uid})" opacity=".7"/>
+        <rect x="24" y="${y}" width="272" height="${h}" rx="5" fill="url(#stn${uid})"/>
+        <path d="M24 ${y} l13 ${h/2} l-13 ${h/2} Z" fill="#000" opacity=".16"/>
+      </g>`;
     }
-    return `<svg viewBox="0 0 320 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
-      <defs>
-        <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-        <pattern id="weftp" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="4" height="8" fill="rgba(0,0,0,.10)"/></pattern>
-      </defs>${stripes}
-    </svg>`;
+    return svgWrap(uid,bands,h);
   }
-  function weaveSVG(colors){
-    const c1=colors[0]||"#111a3d", c2=colors[1]||"#5c6472", c3=colors[2]||"#dc121d";
-    return `<svg viewBox="0 0 320 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
-      <defs>
-        <pattern id="wv" width="24" height="24" patternUnits="userSpaceOnUse">
-          <rect width="24" height="24" fill="${c1}"/>
-          <rect x="0" y="0" width="12" height="12" fill="${c2}"/>
-          <rect x="12" y="12" width="12" height="12" fill="${c2}"/>
-          <rect x="4" y="0" width="4" height="24" fill="${c3}" opacity=".6"/>
-          <rect x="0" y="4" width="24" height="4" fill="#fff" opacity=".12"/>
-        </pattern>
-      </defs>
-      <rect width="320" height="180" fill="url(#wv)"/>
-      <rect width="320" height="180" fill="url(#gloss2)"/>
-      <linearGradient id="gloss2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient>
-    </svg>`;
+  function weaveViz(uid,colors){
+    const c1=colors[0]||"#111a3d",c2=colors[1]||"#5c6472",c3=colors[2]||"#dc121d";
+    const inner=`<defs><pattern id="wv${uid}" width="26" height="26" patternUnits="userSpaceOnUse">
+        <rect width="26" height="26" fill="${c1}"/>
+        <rect x="0" y="0" width="13" height="13" fill="${c2}"/><rect x="13" y="13" width="13" height="13" fill="${c2}"/>
+        <rect x="5" y="0" width="3" height="26" fill="${c3}" opacity=".75"/>
+        <rect x="0" y="5" width="26" height="3" fill="#fff" opacity=".14"/><rect x="0" y="18" width="26" height="2" fill="#000" opacity=".14"/>
+      </pattern></defs>
+      <g filter="url(#sh${uid})"><rect x="28" y="30" width="264" height="130" rx="10" fill="url(#wv${uid})"/>
+        <rect x="28" y="30" width="264" height="130" rx="10" fill="url(#rnd${uid})" opacity=".6"/>
+        <rect x="28" y="30" width="264" height="130" rx="10" fill="url(#stn${uid})"/></g>`;
+    return svgWrap(uid,inner,20);
   }
   function productVisual(p){
-    if(p.style==="tape") return tapeSVG(p.colors);
-    if(p.style==="weave") return weaveSVG(p.colors);
-    return cordSVG(p.colors, p.style);
+    if(p.img) return `<img src="${p.img}" alt="${p.name[lang]}" loading="lazy">`;
+    if(p.style==="tape") return tapeViz(p.id,p.colors);
+    if(p.style==="weave") return weaveViz(p.id,p.colors);
+    return cordViz(p.id,p.colors,p.style);
   }
 
-  /* ---------------- Products render + filters ---------------- */
-  let fType="all", fMat="all", fSearch="";
-  function renderProducts(){
-    const grid=$("#product-grid"); if(!grid) return;
-    const catLabel={cordones:t("ft_cordones"),cintas:t("ft_cintas"),tejidos:t("ft_tejidos")};
-    const list=PRODUCTS.filter(p=>{
-      if(fType!=="all"&&p.cat!==fType) return false;
-      if(fMat!=="all"&&p.material!==fMat) return false;
-      if(fSearch){
-        const hay=(p.name[lang]+" "+p.desc[lang]+" "+(p.apps[lang]||[]).join(" ")).toLowerCase();
-        if(!hay.includes(fSearch.toLowerCase())) return false;
-      }
-      return true;
-    });
-    if(!list.length){ grid.innerHTML=`<div class="empty">${t("prod_empty")}</div>`; return; }
-    grid.innerHTML=list.map(p=>`
-      <article class="pcard reveal">
-        <div class="pcard-visual">
-          <span class="pcard-tag">${catLabel[p.cat]}</span>
-          ${productVisual(p)}
+  /* ---------------- Catálogo (showcase por categoría) ---------------- */
+  const CAT_ORDER=["cordones","cintas","tejidos"];
+  function renderCatalog(){
+    const wrap=$("#catalog"); if(!wrap) return;
+    const titles={cordones:t("ft_cordones"),cintas:t("ft_cintas"),tejidos:t("ft_tejidos")};
+    const descs={cordones:t("catdesc_cordones"),cintas:t("catdesc_cintas"),tejidos:t("catdesc_tejidos")};
+    wrap.innerHTML=CAT_ORDER.map((cat,idx)=>{
+      const items=PRODUCTS.filter(p=>p.cat===cat);
+      if(!items.length) return "";
+      const cls = idx===1?"cat-row alt":"cat-row";
+      return `<div class="${cls} reveal">
+        <div class="cat-label">
+          <span class="cat-line"></span>
+          <h3>${titles[cat]}</h3>
+          <p>${descs[cat]}</p>
         </div>
-        <div class="pcard-body">
-          <h3>${p.name[lang]}</h3>
-          <p>${p.desc[lang]}</p>
-          <div class="pcard-meta">
-            <span class="pmeta">${t("fm_"+p.material)}</span>
-            ${(p.apps[lang]||[]).map(a=>`<span class="pmeta">${a}</span>`).join("")}
-          </div>
-          <div class="pcard-foot">
-            <div class="swatches">${p.colors.slice(0,5).map(c=>`<span class="swatch" style="background:${c}"></span>`).join("")}</div>
-            <a href="#contacto" data-quote="${p.name[lang]}">${t("prod_detail")}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-          </div>
+        <div class="cat-tiles">
+          ${items.map(p=>`
+            <a class="tile" href="#contacto" data-quote="${p.name[lang]}" aria-label="${p.name[lang]}">
+              <div class="tile-visual">${productVisual(p)}</div>
+              <div class="tile-cap">
+                <b>${p.name[lang]}</b>
+                <span>${t("fm_"+p.material)} · ${(p.apps[lang]||[]).join(" · ")}</span>
+              </div>
+            </a>`).join("")}
         </div>
-      </article>`).join("");
+      </div>`;
+    }).join("");
     checkReveal();
-    // prefill contact interest when clicking detail
-    $$("[data-quote]",grid).forEach(a=>a.addEventListener("click",()=>{
+    $$("[data-quote]",wrap).forEach(a=>a.addEventListener("click",()=>{
       const sel=$("#f_interest"); if(sel){ const v=a.dataset.quote;
         if(![...sel.options].some(o=>o.value===v)){ const o=document.createElement("option"); o.value=v;o.textContent=v; sel.appendChild(o);} sel.value=v; }
     }));
-  }
-  function initFilters(){
-    $$("[data-ftype]").forEach(b=>b.addEventListener("click",()=>{
-      fType=b.dataset.ftype; $$("[data-ftype]").forEach(x=>x.classList.toggle("active",x===b)); renderProducts();
-    }));
-    $$("[data-fmat]").forEach(b=>b.addEventListener("click",()=>{
-      fMat=b.dataset.fmat; $$("[data-fmat]").forEach(x=>x.classList.toggle("active",x===b)); renderProducts();
-    }));
-    const s=$("#product-search"); if(s) s.addEventListener("input",e=>{fSearch=e.target.value.trim(); renderProducts();});
   }
 
   /* ---------------- Header + mobile menu ---------------- */
@@ -253,7 +240,7 @@
   document.addEventListener("DOMContentLoaded",()=>{
     $("#year") && ($("#year").textContent=new Date().getFullYear());
     $$(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
-    applyI18n(); buildMarquee(); initFilters(); renderProducts();
+    applyI18n(); buildMarquee(); renderCatalog();
     initHeader(); initChat(); initForm(); initReveal();
   });
 })();
